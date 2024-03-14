@@ -52,8 +52,11 @@ export const useShowsStore = defineStore('shows', {
 
       // map show genre to store
       for (const genre of show.genres) {
-        if (this.showsByGenre[genre]) this.showsByGenre[genre].push(show.id)
-        else this.showsByGenre[genre] = [show.id]
+        if (this.showsByGenre[genre] && !this.showsByGenre[genre].includes(show.id)) {
+          this.showsByGenre[genre].push(show.id)
+        } else if (!this.showsByGenre[genre]) {
+          this.showsByGenre[genre] = [show.id]
+        }
       }
     }
   },

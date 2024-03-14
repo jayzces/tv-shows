@@ -6,7 +6,7 @@ defineProps<{ show: Show }>()
 <template>
   <RouterLink :to="{ name: 'showDetails', params: { id: show.id } }" class="show-link">
     <div class="show">
-      <img :src="show.image.medium" />
+      <img :src="show.image.medium" :alt="show.name" />
       <div class="show__text">
         <h4>{{ show.name }}</h4>
         <p>Rating {{ show.rating.average }}</p>

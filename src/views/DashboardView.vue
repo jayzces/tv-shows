@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import ShowList from '@/components/ShowList.vue'
 import { useShowsStore } from '@/stores/shows'
+import { ref } from 'vue'
 
-const store = useShowsStore()
-store.getShowsByPage()
+const isLoading = ref(true)
+useShowsStore()
+  .getShowsByPage()
+  .then(() => (isLoading.value = false))
 
 const genres = [
   'Action',
@@ -39,11 +42,14 @@ const genres = [
 
 <template>
   <main>
-    <section v-for="g in genres" :key="g">
-      <h2>{{ g }}</h2>
+    <p v-if="isLoading">Loading...</p>
+    <template v-else>
+      <section v-for="g in genres" :key="g">
+        <h2>{{ g }}</h2>
 
-      <ShowList :genre="g" />
-    </section>
+        <ShowList :genre="g" />
+      </section>
+    </template>
   </main>
 </template>
 

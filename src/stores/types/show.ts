@@ -7,6 +7,9 @@ export interface Show {
   }
   image: {
     medium: string
+    original: string
   }
   summary: string // html
+  premiered: string // date
+  ended: string
 }

@@ -1,29 +1,6 @@
 import { useShowsStore } from '@/stores/shows'
 import DashboardView from '@/views/DashboardView.vue'
-import {
-  createRouter,
-  createWebHistory,
-  type NavigationGuardNext,
-  type RouteLocationNormalized
-} from 'vue-router'
-
-async function queryShow(
-  to: RouteLocationNormalized,
-  from: RouteLocationNormalized,
-  next: NavigationGuardNext
-) {
-  const store = useShowsStore()
-  const showId = to.params.id as string
-  let show = store.showById(showId)
-
-  if (show) {
-    next()
-  } else {
-    show = await store.getShow(showId)
-    if (show) next()
-    else next({ name: '404' })
-  }
-}
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,8 +17,21 @@ const router = createRouter({
     {
       path: '/show/:id',
       name: 'showDetails',
+      props: true,
       component: () => import('../views/ShowView.vue'),
-      beforeEnter: [queryShow]
+      beforeEnter: async (to, from, next) => {
+        const store = useShowsStore()
+        const showId = to.params.id as string
+        let show = store.showById(showId)
+
+        if (show) {
+          next()
+        } else {
+          show = await store.getShow(showId)
+          if (show) next()
+          else next({ name: '404' })
+        }
+      }
     },
     {
       path: '/:pathMatch(.*)*',
