@@ -14,6 +14,8 @@ const { mostPopularShows } = useShowsStore()
 
 <style scoped>
 .shows-list {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 210px);
+  gap: 20px;
 }
 </style>

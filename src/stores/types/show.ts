@@ -5,11 +5,11 @@ export interface Show {
   rating: {
     average: any
   }
-  image: {
+  image?: {
     medium: string
     original: string
   }
   summary: string // html
   premiered: string // date
-  ended: string
+  ended: string // date
 }
