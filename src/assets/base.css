@@ -1,3 +1,13 @@
+:root {
+  --bg-color: #141616;
+  --main-accent: #3daaa0;
+  --border-color: rgba(255, 255, 255, 0.5);
+  --text-primary: #fff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+
+  --transition-duration: 200ms;
+}
+
 html {
   line-height: 1.4;
   font-family: 'Poppins', sans-serif;
@@ -6,6 +16,98 @@ html {
   font-size: 16px;
 }
 
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  margin: 0;
+}
+
 * {
   box-sizing: border-box;
+}
+
+*:focus,
+*:active {
+  outline-color: var(--main-accent);
+  outline-offset: 2px;
+}
+
+/* match tailwind specs */
+.container {
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 15px;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+    padding: 0 30px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+button {
+  background-color: unset;
+  font: inherit;
+  border: unset;
+  color: inherit;
+  cursor: pointer;
+}
+
+.button-icon {
+  position: relative;
+  padding: 8px; /* assuming 24px icons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  transition: color ease var(--transition-duration);
+}
+
+.button-icon:hover {
+  /* color: var(--main-accent); */
+}
+
+input {
+  background-color: unset;
+  font: inherit;
+  color: inherit;
+  border: unset;
+}
+
+input[type='text'] {
+  line-height: 24px;
+  font-size: 0.8rem;
+}
+
+input::placeholder {
+  color: var(--text-secondary);
+}
+
+.page {
+  padding: 25px 0;
 }

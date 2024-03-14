@@ -32,7 +32,7 @@ defineProps<{ show: Show }>()
 .show__image-placeholder {
   width: 210px;
   height: 295px;
-  border: 1px solid black;
+  border: 1px solid var(--border-color);
 }
 
 .show__text {

@@ -11,5 +11,4 @@ export interface Show {
   }
   summary: string // html
   premiered: string // date
-  ended: string // date
 }

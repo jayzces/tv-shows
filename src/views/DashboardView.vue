@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import ShowList from '@/components/ShowList.vue'
-import ShowTile from '@/components/ShowTile.vue'
 import { useShowsStore } from '@/stores/shows'
 import { ref } from 'vue'
 
 const isLoading = ref(true)
-const query = defineModel()
 const store = useShowsStore()
 const genres = [
   'Action',
@@ -39,48 +37,36 @@ const genres = [
 ]
 
 store.getShowsByPage().then(() => (isLoading.value = false))
-
-const submit = () => {
-  isLoading.value = true
-  store.getFilteredShows(query.value as string).then(() => (isLoading.value = false))
-}
-
-const closeSearch = () => {
-  query.value = ''
-  store.clearSearch()
-}
 </script>
 
 <template>
-  <main>
-    <p v-if="isLoading">Loading...</p>
-    <template v-else>
-      <form @submit.prevent="submit">
-        <input type="text" v-model="query" placeholder="Search" />
-        <button type="submit">Search</button>
-      </form>
+  <main class="page dashboard">
+    <div class="container">
+      <p v-if="isLoading">Loading...</p>
+      <template v-else>
+        <!-- <button @click="store.getNextShows()">Load more shows</button> -->
 
-      <button @click="store.getNextShows()">Load more shows</button>
-
-      <template v-if="store.queriedShows.length > 0">
-        <h2>Search Results</h2>
-
-        <button @click="closeSearch">Close Results</button>
-
-        <ShowList :shows="store.queriedShows" prefix="queried-" />
+        <template v-for="g in genres" :key="g">
+          <section v-if="store.mostPopularShows(g).length >= 5">
+            <h2>{{ g }}</h2>
+            <ShowList :shows="store.mostPopularShows(g)" :prefix="`${g}-`" />
+          </section>
+        </template>
       </template>
-
-      <section v-for="g in genres" :key="g">
-        <h2>{{ g }}</h2>
-
-        <ShowList :shows="store.mostPopularShows(g)" :prefix="`${g}-`" />
-      </section>
-    </template>
+    </div>
   </main>
 </template>
 
 <style scoped>
 section {
   min-height: 300px;
+}
+
+section:not(:first-child) {
+  margin-top: 50px;
+}
+
+section h2 {
+  margin: 0 0 20px;
 }
 </style>
