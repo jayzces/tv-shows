@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import ShowList from '@/components/ShowList.vue'
 import { useShowsStore } from '@/stores/shows'
-import { ref } from 'vue'
 
-const isLoading = ref(true)
 const store = useShowsStore()
 const genres = [
   'Action',
@@ -35,17 +33,13 @@ const genres = [
   'War',
   'Western'
 ]
-
-store.getShowsByPage().then(() => (isLoading.value = false))
 </script>
 
 <template>
   <main class="page dashboard">
     <div class="container">
-      <p v-if="isLoading">Loading...</p>
+      <p v-if="store.isLoading">Loading...</p>
       <template v-else>
-        <!-- <button @click="store.getNextShows()">Load more shows</button> -->
-
         <template v-for="g in genres" :key="g">
           <section v-if="store.mostPopularShows(g).length >= 5">
             <h2>{{ g }}</h2>

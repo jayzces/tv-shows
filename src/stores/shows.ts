@@ -4,8 +4,9 @@ import { defineStore } from 'pinia'
 const baseUrl = 'https://api.tvmaze.com'
 
 interface ShowsState {
-  page: number
+  isLoading: boolean
   filteredShows: number[]
+  page: number
   shows: {
     [key: number | string]: Show | undefined
   }
@@ -21,12 +22,16 @@ interface SearchResult {
 
 export const useShowsStore = defineStore('shows', {
   state: (): ShowsState => ({
-    page: 1,
+    isLoading: false,
     filteredShows: [],
+    page: 1,
     shows: {}, // list of all shows
     showsByGenre: {} // list of shows by genre
   }),
   actions: {
+    async clearSearch() {
+      this.filteredShows = []
+    },
     async getFilteredShows(query: string) {
       return fetch(`${baseUrl}/search/shows?q=${query}`)
         .then((response) => response.json())
@@ -55,10 +60,12 @@ export const useShowsStore = defineStore('shows', {
     },
     async getShowsByPage(page = 1) {
       this.page = page
+      this.isLoading = true
       return fetch(`${baseUrl}/shows?page=${page}`)
         .then((response) => response.json())
         .then((data: Show[]) => {
           data.forEach((show) => this.saveShowAndMap(show))
+          this.isLoading = false
           return data
         })
     },
@@ -74,9 +81,6 @@ export const useShowsStore = defineStore('shows', {
           this.showsByGenre[genre] = [show.id]
         }
       }
-    },
-    async clearSearch() {
-      this.filteredShows = []
     }
   },
   getters: {

@@ -8,7 +8,11 @@ const router = createRouter({
     {
       path: '/',
       name: 'dashboard',
-      component: DashboardView
+      component: DashboardView,
+      beforeEnter: () => {
+        useShowsStore().getShowsByPage()
+        return true
+      }
     },
     {
       path: '/show',
