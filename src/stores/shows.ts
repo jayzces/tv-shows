@@ -74,6 +74,9 @@ export const useShowsStore = defineStore('shows', {
           this.showsByGenre[genre] = [show.id]
         }
       }
+    },
+    async clearSearch() {
+      this.filteredShows = []
     }
   },
   getters: {

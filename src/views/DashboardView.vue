@@ -44,6 +44,11 @@ const submit = () => {
   isLoading.value = true
   store.getFilteredShows(query.value as string).then(() => (isLoading.value = false))
 }
+
+const closeSearch = () => {
+  query.value = ''
+  store.clearSearch()
+}
 </script>
 
 <template>
@@ -57,20 +62,18 @@ const submit = () => {
 
       <button @click="store.getNextShows()">Load more shows</button>
 
-      {{ query }} {{ store.queriedShows.length }}
-
       <template v-if="store.queriedShows.length > 0">
         <h2>Search Results</h2>
 
-        <div class="list">
-          <ShowTile v-for="s in store.queriedShows" :key="`queried-show-${s.id}`" :show="s" />
-        </div>
+        <button @click="closeSearch">Close Results</button>
+
+        <ShowList :shows="store.queriedShows" prefix="queried-" />
       </template>
 
       <section v-for="g in genres" :key="g">
         <h2>{{ g }}</h2>
 
-        <ShowList :genre="g" />
+        <ShowList :shows="store.mostPopularShows(g)" :prefix="`${g}-`" />
       </section>
     </template>
   </main>
@@ -79,11 +82,5 @@ const submit = () => {
 <style scoped>
 section {
   min-height: 300px;
-}
-
-.list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 210px);
-  gap: 20px;
 }
 </style>
