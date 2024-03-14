@@ -49,6 +49,6 @@ const genres = [
 
 <style scoped>
 section {
-  min-height: 50vh;
+  min-height: 300px;
 }
 </style>

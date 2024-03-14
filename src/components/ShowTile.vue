@@ -4,22 +4,28 @@ defineProps<{ show: Show }>()
 </script>
 
 <template>
-  <div class="show">
-    <img :src="show.image.medium" />
-    <div class="show__text">
-      <h4>{{ show.name }}</h4>
-      <p>Rating {{ show.rating.average }}</p>
+  <RouterLink :to="{ name: 'showDetails', params: { id: show.id } }" class="show-link">
+    <div class="show">
+      <img :src="show.image.medium" />
+      <div class="show__text">
+        <h4>{{ show.name }}</h4>
+        <p>Rating {{ show.rating.average }}</p>
+      </div>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 <style scoped>
-.show {
-  position: relative;
+.show-link {
+  display: inline-block;
 }
 
-.show:not(:first-child) {
+.show-link:not(:first-child) {
   margin-left: 20px;
+}
+
+.show {
+  position: relative;
 }
 
 .show__text {

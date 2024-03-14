@@ -5,7 +5,10 @@ const baseUrl = 'https://api.tvmaze.com'
 
 interface ShowsState {
   shows: {
-    [key: string]: Show | {}
+    [key: number | string]: Show | undefined
+  }
+  showsByGenre: {
+    [key: string]: (number | string)[]
   }
   page: number
 }
@@ -13,33 +16,56 @@ interface ShowsState {
 export const useShowsStore = defineStore('shows', {
   state: (): ShowsState => ({
     page: 1,
-    shows: {}
+    shows: {}, // list of all shows
+    showsByGenre: {} // list of shows by genre
   }),
   actions: {
     async getNextShowsByGenre() {
       this.getShowsByPage(this.page + 1)
     },
+    async getShow(id: number | string) {
+      return fetch(`${baseUrl}/shows/${id}`)
+        .then((response) => response.json())
+        .then((show: Show) => {
+          this.saveShowAndMap(show)
+          return show
+        })
+        .catch((err: any) => {
+          console.error(err)
+          return undefined
+        })
+    },
     async getShowsByPage(page = 1) {
       this.page = page
-      fetch(`${baseUrl}/shows?page=${page}`)
+      return fetch(`${baseUrl}/shows?page=${page}`)
         .then((response) => response.json())
         .then((data: Show[]) => {
           for (const show of data) {
-            for (const genre of show.genres) {
-              this.shows[genre] = {
-                ...this.shows[genre],
-                [show.id]: show
-              }
-            }
+            this.saveShowAndMap(show)
           }
+          return data
         })
+    },
+    saveShowAndMap(show: Show) {
+      // save show details to store
+      this.shows[show.id] = show
+
+      // map show genre to store
+      for (const genre of show.genres) {
+        if (this.showsByGenre[genre]) this.showsByGenre[genre].push(show.id)
+        else this.showsByGenre[genre] = [show.id]
+      }
     }
   },
   getters: {
     // get 5 most popular shows by average rating
     mostPopularShows() {
       return (genre: string) => {
-        const shows: Show[] = Object.values(this.shows[genre] || {})
+        if (!this.showsByGenre[genre]) return []
+
+        const shows = this.showsByGenre[genre]
+          .map((id) => this.showById(id))
+          .filter((s) => !!s) as Show[]
         return shows
           .sort((a, b) => {
             if (a.rating.average > b.rating.average) return -1
@@ -48,6 +74,9 @@ export const useShowsStore = defineStore('shows', {
           })
           .slice(0, 5)
       }
+    },
+    showById() {
+      return (id: number | string): Show | undefined => this.shows[id]
     }
   }
 })
