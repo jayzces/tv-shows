@@ -1,8 +1,22 @@
 <template>
   <main>
-    <h1>404: Page not found</h1>
-    <RouterLink :to="{ name: 'dashboard' }">
-      <button>Go back home</button>
-    </RouterLink>
+    <div class="container">
+      <h1>404 Page not found</h1>
+    </div>
   </main>
 </template>
+
+<style scoped>
+main {
+  height: calc(100vh - 60px);
+}
+
+h1 {
+  margin: auto;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+</style>

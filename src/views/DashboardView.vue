@@ -53,6 +53,9 @@ const genres = [
 
 <style scoped>
 section {
+  margin: 0 auto;
+  width: calc(210px * 5 + 20px * 4);
+  max-width: 100%;
   min-height: 300px;
 }
 

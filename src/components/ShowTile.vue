@@ -5,12 +5,15 @@ defineProps<{ show: Show }>()
 
 <template>
   <RouterLink :to="{ name: 'showDetails', params: { id: show.id } }" class="show-link">
-    <div class="show">
+    <div class="show" :title="show.name">
       <img v-if="show.image" :src="show.image.medium" :alt="show.name" />
       <div class="show__image-placeholder" v-else></div>
       <div class="show__text">
         <h4>{{ show.name }}</h4>
-        <p>Rating {{ show.rating.average || 0 }}</p>
+        <p>
+          <template v-if="show.rating.average">Rating {{ show.rating.average }}</template>
+          <template v-else>No Rating</template>
+        </p>
       </div>
     </div>
   </RouterLink>
@@ -23,6 +26,8 @@ defineProps<{ show: Show }>()
 
 .show {
   position: relative;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .show img {
@@ -38,16 +43,31 @@ defineProps<{ show: Show }>()
 .show__text {
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.3);
   color: white;
   position: absolute;
   inset: 0;
   padding: 10px;
+  opacity: 0;
   z-index: 1;
+  transition: opacity ease-in-out var(--transition-duration);
 }
 
-.show__text h4 {
+.show__text::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--main-accent);
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.show:hover .show__text {
+  opacity: 1;
+}
+
+h4 {
   margin: auto 0 0;
+  font-size: 1.1rem;
 }
 
 .show__text p {

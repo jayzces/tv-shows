@@ -1,11 +1,13 @@
 :root {
   --bg-color: #141616;
-  --main-accent: #3daaa0;
+  --main-accent: #15978c;
   --border-color: rgba(255, 255, 255, 0.5);
+
   --text-primary: #fff;
   --text-secondary: rgba(255, 255, 255, 0.7);
 
   --transition-duration: 200ms;
+  --star-color: #ffd300;
 }
 
 html {
@@ -86,10 +88,6 @@ button {
   justify-content: center;
   border-radius: 40px;
   transition: color ease var(--transition-duration);
-}
-
-.button-icon:hover {
-  /* color: var(--main-accent); */
 }
 
 input {

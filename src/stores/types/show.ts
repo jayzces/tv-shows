@@ -1,3 +1,5 @@
+import type { ShowImage } from './showImage'
+
 export interface Show {
   id: number
   name: string
@@ -11,4 +13,6 @@ export interface Show {
   }
   summary: string // html
   premiered: string // date
+  language: string
+  banner?: ShowImage
 }

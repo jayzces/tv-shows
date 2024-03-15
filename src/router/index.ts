@@ -26,15 +26,12 @@ const router = createRouter({
       beforeEnter: async (to, from, next) => {
         const store = useShowsStore()
         const showId = to.params.id as string
-        let show = store.showById(showId)
+        await store.getShow(showId)
+        const show = store.showById(showId)
+        store.clearSearch()
 
-        if (show) {
-          next()
-        } else {
-          show = await store.getShow(showId)
-          if (show) next()
-          else next({ name: '404' })
-        }
+        if (show) next()
+        else next({ name: '404' })
       }
     },
     {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import StarRating from '@/components/StarRating.vue'
 import { useShowsStore } from '@/stores/shows'
 
 const props = defineProps<{ id: string }>()
@@ -13,20 +14,152 @@ const formatDate = (dateString: string) => {
 
 <template>
   <main v-if="show">
-    <h1>{{ show.name }}</h1>
-    <img v-if="show.image" :src="show.image.medium" :alt="show.name" />
-    <div class="image-placeholder" v-else></div>
-    <div>{{ show.rating.average || 0 }} / 10</div>
-    <div>Released {{ formatDate(show.premiered) }}</div>
-    <div>Genre: {{ show.genres.join(', ') }}</div>
-    <div v-html="show.summary"></div>
+    <div class="banner">
+      <img
+        v-if="show.banner"
+        :src="show.banner.resolutions.original.url"
+        :alt="show.name"
+        class="banner__image"
+      />
+      <div class="container">
+        <img
+          v-if="show.image"
+          :src="show.image.medium"
+          :alt="show.name"
+          :title="show.name"
+          class="poster"
+        />
+        <div class="poster-placeholder" v-else></div>
+        <div class="banner__text">
+          <p>
+            {{ formatDate(show.premiered) }} &nbsp;&bullet;&nbsp;
+            {{ show.language }} &nbsp;&bullet;&nbsp; {{ show.genres.join(', ') }}
+          </p>
+          <h1>{{ show.name }}</h1>
+          <StarRating :rating="show.rating.average" class="star-rating" />
+        </div>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="container">
+        <div v-html="show.summary"></div>
+      </div>
+    </div>
   </main>
 </template>
 
 <style scoped>
-.image-placeholder {
+.banner {
+  position: relative;
+}
+
+.banner__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 240px);
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 240px);
+  background-color: var(--main-accent);
+  opacity: 0.7;
+}
+
+.banner .container {
+  position: relative;
+  padding-top: 20px;
+  z-index: 1;
+  text-align: center;
+}
+
+.banner__text {
+  margin-top: 20px;
+}
+
+.star-rating {
+  margin-top: 10px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.banner p {
+  margin: 0;
+}
+
+.poster {
+  display: block;
+  margin: 0 auto;
+  align-self: end;
+}
+
+.poster,
+.poster-placeholder {
   width: 210px;
   height: 295px;
-  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+.poster-placeholder {
+  background-color: #8ab8b4;
+}
+
+.page {
+  padding: 15px 0;
+}
+
+@media all and (min-width: 640px) {
+  .banner {
+    height: 360px;
+  }
+
+  .banner__image {
+    height: calc(100% - 50px);
+  }
+
+  .banner::after {
+    bottom: 50px;
+  }
+
+  .banner .container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: left;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .poster {
+    margin: 0;
+  }
+}
+
+@media all and (min-width: 1024px) {
+  h1 {
+    font-size: 4rem;
+  }
+
+  .page {
+    padding: 25px 0;
+  }
 }
 </style>

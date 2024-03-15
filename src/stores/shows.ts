@@ -1,4 +1,5 @@
 import type { Show } from './types/show'
+import type { ShowImage } from './types/showImage'
 import { defineStore } from 'pinia'
 
 const baseUrl = 'https://api.tvmaze.com'
@@ -8,7 +9,7 @@ interface ShowsState {
   filteredShows: number[]
   page: number
   shows: {
-    [key: number | string]: Show | undefined
+    [key: number | string]: Show
   }
   showsByGenre: {
     [key: string]: (number | string)[]
@@ -18,6 +19,11 @@ interface ShowsState {
 interface SearchResult {
   score: number
   show: Show
+}
+
+function errorHandler(err: any) {
+  console.error(err)
+  return undefined
 }
 
 export const useShowsStore = defineStore('shows', {
@@ -49,14 +55,22 @@ export const useShowsStore = defineStore('shows', {
     async getShow(id: number | string) {
       return fetch(`${baseUrl}/shows/${id}`)
         .then((response) => response.json())
-        .then((show: Show) => {
+        .then(async (show: Show) => {
           this.saveShowAndMap(show)
-          return show
+          return fetch(`${baseUrl}/shows/${id}/images`)
+            .then((response) => response.json())
+            .then((data: ShowImage[]) => {
+              // find first banner
+              const banner = data.find((d) => d.type === 'background')
+              if (banner) {
+                this.shows[show.id].banner = banner
+                show.banner = banner
+              }
+              return show
+            })
+            .catch(errorHandler)
         })
-        .catch((err: any) => {
-          console.error(err)
-          return undefined
-        })
+        .catch(errorHandler)
     },
     async getShowsByPage(page = 1) {
       this.page = page
