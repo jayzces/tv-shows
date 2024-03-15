@@ -12,7 +12,8 @@ const router = createRouter({
       beforeEnter: () => {
         useShowsStore().getShowsByPage()
         return true
-      }
+      },
+      meta: { title: 'Dashboard' }
     },
     {
       path: '/show',
@@ -28,18 +29,31 @@ const router = createRouter({
         const showId = to.params.id as string
         await store.getShow(showId)
         const show = store.showById(showId)
+
+        // clear filtered search when coming from the search screen
         store.clearSearch()
 
-        if (show) next()
-        else next({ name: '404' })
+        if (show) {
+          // update page title
+          document.title = `${show.name} | TV Shows`
+          next()
+        } else {
+          next({ name: '404' })
+        }
       }
     },
     {
       path: '/:pathMatch(.*)*',
       name: '404',
-      component: () => import('../views/404View.vue')
+      component: () => import('../views/404View.vue'),
+      meta: { title: 'Page not found' }
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title ? `${to.meta.title} | TV Shows` : 'TV Shows'
+  next()
 })
 
 export default router
