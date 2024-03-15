@@ -30,9 +30,6 @@ const router = createRouter({
         await store.getShow(showId)
         const show = store.showById(showId)
 
-        // clear filtered search when coming from the search screen
-        store.clearSearch()
-
         if (show) {
           // update page title
           document.title = `${show.name} | TV Shows`
@@ -52,6 +49,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  // clear filtered search when coming from the search screen
+  const store = useShowsStore()
+  store.clearSearch()
+
   document.title = to.meta.title ? `${to.meta.title} | TV Shows` : 'TV Shows'
   next()
 })

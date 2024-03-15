@@ -35,7 +35,7 @@ export const useShowsStore = defineStore('shows', {
     showsByGenre: {} // list of shows by genre
   }),
   actions: {
-    clearSearch() {
+    async clearSearch() {
       this.filteredShows = []
     },
     async getFilteredShows(query: string) {

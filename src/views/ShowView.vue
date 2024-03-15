@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import StarRating from '@/components/StarRating.vue'
 import { useShowsStore } from '@/stores/shows'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
-const props = defineProps<{ id: string }>()
 const store = useShowsStore()
-const show = store.showById(props.id)
+const props = defineProps<{ id: string }>()
+const show = ref(store.showById(props.id))
+
+const route = useRoute()
+
+watch(
+  () => route.params.id,
+  (newId) => (show.value = store.showById(newId as string))
+)
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)
@@ -36,7 +45,7 @@ const formatDate = (dateString: string) => {
             {{ show.language }} &nbsp;&bullet;&nbsp; {{ show.genres.join(', ') }}
           </p>
           <h1>{{ show.name }}</h1>
-          <StarRating :rating="show.rating.average" class="star-rating" />
+          <StarRating :rating="show.rating.average || 0" class="star-rating" />
         </div>
       </div>
     </div>
