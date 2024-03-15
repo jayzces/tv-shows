@@ -10,5 +10,3 @@ const store = useShowsStore()
   <SearchResults v-if="store.queriedShows.length > 0" />
   <RouterView v-else />
 </template>
-
-<style scoped></style>

@@ -6,7 +6,7 @@ const baseUrl = 'https://api.tvmaze.com'
 
 interface ShowsState {
   isLoading: boolean
-  filteredShows: number[]
+  filteredShows: (number | string)[]
   page: number
   shows: {
     [key: number | string]: Show
@@ -35,7 +35,7 @@ export const useShowsStore = defineStore('shows', {
     showsByGenre: {} // list of shows by genre
   }),
   actions: {
-    async clearSearch() {
+    clearSearch() {
       this.filteredShows = []
     },
     async getFilteredShows(query: string) {
@@ -50,7 +50,7 @@ export const useShowsStore = defineStore('shows', {
         })
     },
     async getNextShows() {
-      this.getShowsByPage(this.page + 1)
+      return this.getShowsByPage(this.page + 1)
     },
     async getShow(id: number | string) {
       return fetch(`${baseUrl}/shows/${id}`)
@@ -68,7 +68,6 @@ export const useShowsStore = defineStore('shows', {
               }
               return show
             })
-            .catch(errorHandler)
         })
         .catch(errorHandler)
     },
