@@ -8,7 +8,6 @@ const store = useShowsStore()
   <div class="page search-results">
     <div class="container">
       <h2>Search Results ({{ store.queriedShows.length }} found)</h2>
-
       <ShowList :shows="store.queriedShows" prefix="queried-" :wrap="true" />
     </div>
   </div>

@@ -39,13 +39,6 @@ describe('Shows Store', () => {
       original: { url: 'http://' }
     }
   }
-  const showImage2: ShowImage = {
-    id: 2,
-    type: 'poster',
-    resolutions: {
-      original: { url: 'http://' }
-    }
-  }
 
   const mockFetch = (data: any): Promise<any> =>
     new Promise((resolve) =>

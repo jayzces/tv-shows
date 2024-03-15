@@ -122,13 +122,3 @@ export const useShowsStore = defineStore('shows', {
     }
   }
 })
-
-/**
- * Notes
- * - API does not have a genre filter,
- *   - get initial data of shows, map to an object by genre
- *   - if user scrolls to genre with no shows, less than 5? shows, query more shows? remap
- *     - continue querying
- *     - possibility to be endlessly querying for no shows
- * - error handling?
- */
