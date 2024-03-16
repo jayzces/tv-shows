@@ -25,4 +25,7 @@ npm run test:unit
 
 # run tests once
 npm run test:unit:once
+
+# run vitest ui for more details on testing coverage
+npm run test:unit:ui
 ```

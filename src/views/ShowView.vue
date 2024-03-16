@@ -5,7 +5,7 @@ import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const store = useShowsStore()
-const props = defineProps<{ id: string }>()
+const props = defineProps<{ id: string | number }>()
 const show = ref(store.showById(props.id))
 
 const route = useRoute()

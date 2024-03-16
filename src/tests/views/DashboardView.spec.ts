@@ -16,7 +16,10 @@ describe('Dashboard View', () => {
     const wrapper = mount(DashboardView, {
       global: {
         stubs: {
-          ShowList: true
+          ShowList: {
+            template: '<div></div>',
+            props: ['prefix']
+          }
         }
       }
     })
@@ -78,7 +81,10 @@ describe('Dashboard View', () => {
     const wrapper = mount(DashboardView, {
       global: {
         stubs: {
-          ShowList: true
+          ShowList: {
+            template: '<div></div>',
+            props: ['prefix']
+          }
         }
       }
     })

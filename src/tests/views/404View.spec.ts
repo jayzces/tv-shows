@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 describe('404 View', () => {
   it('should render properly', () => {
     const wrapper = mount(View404)
+    expect(wrapper.exists()).toBeTruthy()
     expect(wrapper.text()).toContain('404')
   })
 })
