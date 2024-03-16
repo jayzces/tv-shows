@@ -6,11 +6,11 @@ defineProps<{ show: Show }>()
 <template>
   <RouterLink :to="{ name: 'showDetails', params: { id: show.id } }" class="show-link">
     <div class="show" :title="show.name">
-      <img v-if="show.image" :src="show.image.medium" :alt="show.name" />
+      <img v-if="show.image" :src="show.image.medium" :alt="show.name" class="show__image" />
       <div class="show__image-placeholder" v-else></div>
       <div class="show__text">
         <h4>{{ show.name }}</h4>
-        <p>
+        <p class="show__rating">
           <template v-if="show.rating.average">Rating {{ show.rating.average }}</template>
           <template v-else>No Rating</template>
         </p>

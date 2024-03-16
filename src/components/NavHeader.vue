@@ -32,7 +32,7 @@ const toggleSearchAndFocus = () => {
       </RouterLink>
 
       <form @submit.prevent="submit" class="expanding-search" :class="{ active: query }">
-        <button type="button" class="button-icon" @click="toggleSearchAndFocus">
+        <button type="button" class="button-icon search-button" @click="toggleSearchAndFocus">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
         <input
@@ -42,7 +42,7 @@ const toggleSearchAndFocus = () => {
           class="search-field"
           placeholder="What do you wanna watch?"
         />
-        <button type="button" class="button-icon clear-button" @click="clearSearch" v-if="query">
+        <button type="button" class="button-icon clear-button" @click="clearSearch" v-show="query">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </form>

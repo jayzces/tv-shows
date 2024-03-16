@@ -41,7 +41,7 @@ const genres = [
       <p v-if="store.isLoading">Loading...</p>
       <template v-else>
         <template v-for="g in genres" :key="g">
-          <section v-if="store.mostPopularShows(g).length >= 5">
+          <section v-if="store.mostPopularShows(g).length >= 5" class="genre-section">
             <h2>{{ g }}</h2>
             <ShowList :shows="store.mostPopularShows(g)" :prefix="`${g}-`" />
           </section>
