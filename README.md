@@ -2,7 +2,7 @@
 
 # TV Shows
 
-Coding test for a client, using the [TVMaze API](https://www.tvmaze.com/api). Made with Vue 3 and Vite.
+Coding test for a client, using the [TVMaze API](https://www.tvmaze.com/api). Made with Vue 3 and Vite, to match client requirements.
 
 ![preview](preview.jpeg)
 
