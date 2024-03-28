@@ -21,9 +21,16 @@ withDefaults(defineProps<ListProps>(), { wrap: false })
 
 <style scoped>
 .list-grid {
+  gap: 20px;
+}
+
+.shows-list.wrap .list-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, 210px);
-  gap: 20px;
+}
+
+.shows-list:not(.wrap) .list-grid {
+  display: flex;
 }
 
 .shows-list:not(.wrap) {

@@ -1,38 +1,7 @@
 <script setup lang="ts">
 import ShowList from '@/components/ShowList.vue'
 import { useShowsStore } from '@/stores/shows'
-
 const store = useShowsStore()
-const genres = [
-  'Action',
-  'Adult',
-  'Adventure',
-  'Anime',
-  'Children',
-  'Comedy',
-  'Crime',
-  'DIY',
-  'Drama',
-  'Espionage',
-  'Family',
-  'Fantasy',
-  'Food',
-  'History',
-  'Horror',
-  'Legal',
-  'Medical',
-  'Music',
-  'Mystery',
-  'Nature',
-  'Romance',
-  'Science-Fiction',
-  'Sports',
-  'Supernatural',
-  'Thriller',
-  'Travel',
-  'War',
-  'Western'
-]
 </script>
 
 <template>
@@ -40,10 +9,10 @@ const genres = [
     <div class="container">
       <p v-if="store.isLoading">Loading...</p>
       <template v-else>
-        <template v-for="g in genres" :key="g">
-          <section v-if="store.mostPopularShows(g).length >= 5" class="genre-section">
+        <template v-for="g in store.genresList" :key="g">
+          <section class="genre-section" v-if="store.sortedShowsByRating(g).length >= 5">
             <h2>{{ g }}</h2>
-            <ShowList :shows="store.mostPopularShows(g)" :prefix="`${g}-`" />
+            <ShowList :shows="store.sortedShowsByRating(g)" :prefix="`${g}-`" />
           </section>
         </template>
       </template>

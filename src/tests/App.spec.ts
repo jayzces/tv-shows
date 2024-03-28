@@ -9,18 +9,7 @@ describe('Main App', () => {
 
   it('should render properly', () => {
     const store = useShowsStore()
-    store.shows = {
-      1: {
-        id: 1,
-        name: 'Show 1',
-        genres: ['Action'],
-        rating: { average: 2 },
-        summary: '',
-        premiered: '2024-03-15',
-        language: 'English'
-      }
-    }
-    store.filteredShows = [1]
+    store.activeSearch = true
 
     let wrapper = mount(App, {
       global: {
@@ -39,7 +28,7 @@ describe('Main App', () => {
     expect(wrapper.find('.search-results').exists()).toBeTruthy()
     expect(wrapper.find('.router-view').exists()).toBeFalsy()
 
-    store.filteredShows = []
+    store.activeSearch = false
     wrapper = mount(App, {
       global: {
         stubs: {

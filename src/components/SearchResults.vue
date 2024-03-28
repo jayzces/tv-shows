@@ -7,8 +7,15 @@ const store = useShowsStore()
 <template>
   <div class="page search-results">
     <div class="container">
-      <h2>Search Results ({{ store.queriedShows.length }} found)</h2>
-      <ShowList :shows="store.queriedShows" prefix="queried-" :wrap="true" />
+      <h2>
+        Search Results
+        <template v-if="store.isLoading">(Loading...)</template>
+        <template v-else>({{ store.queriedShows.length }} found)</template>
+      </h2>
+      <template v-if="store.queriedShows.length > 0">
+        <ShowList :shows="store.queriedShows" prefix="queried-" :wrap="true" />
+      </template>
+      <p v-else-if="!store.isLoading">No Results</p>
     </div>
   </div>
 </template>

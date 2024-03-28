@@ -7,6 +7,6 @@ const store = useShowsStore()
 
 <template>
   <NavHeader />
-  <SearchResults v-if="store.queriedShows.length > 0" />
+  <SearchResults v-if="store.activeSearch" />
   <RouterView v-else />
 </template>
